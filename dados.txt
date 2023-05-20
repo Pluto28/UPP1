@@ -1,0 +1,2 @@
+Qual seria sua reação se alguém atirasse uma pedra em você?;Revidaria com outra pedra.;Revidaria com uma rocha enorme para esmagar quem atirou a pedra em você.;Sairia correndo ... vai que vem outra pedra.;Sentiria pena da ignorância de quem atirou a pedra.;1;3;4;2;
+Nobreza é ...?;Viver pelo próximo.;Sobreviver a qualquer custo.;Lutar bravamente pelo que você acredita.;Trazer ordem.;2;4;1;3;
