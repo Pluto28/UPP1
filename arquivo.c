@@ -90,6 +90,7 @@ int main() {
       matresp3[tam][100], matresp4[tam][100];
   int matvalores[tam][4];
 
+
   printf("---------------------------------------------------------------------"
          "-------\n");
   printf("----------------------------Recomendação de "
@@ -118,16 +119,21 @@ int main() {
   //imprimirTudo(matpergs, matresp1, matresp2, matresp3, matresp4, matvalores,
   //             tam);
 
-  // Imprime código para perguntar e armazenar o nome da pessoa.
-  char nome[32];
 
-  while (1) {
+  // Armazena o nome. O nome precisa de 32 caracteres na declaração para seu tam
+  // anho poder ser checado e 
+  char nome[32];
+  int nomeTam = 0;
+
+  //  Lê um nick provido pelo usuário até que o nick provido esteja dentro 
+  // dos limites
+  do {
+     // Imprime código para perguntar e armazenar o nome da pessoa.
     printf("\nInsira o nick para ser usado durante a execução do programa: ");
     scanf(" %31[^\n]s", nome);
 
     //  Itera a string provida pelo usuário, retornando o tamanho, em
     //  caracteres, do nome
-    int nomeTam = 0;
     while (nome[nomeTam] != '\0') {
       nomeTam++;
     }
@@ -138,10 +144,14 @@ int main() {
       printf("Seu nick precisa ter entre 2 e 30 caracteres. Não mais, nem "
              "menos.");
       printf("Tente novamente.\n");
-    } else {
-      break;
     }
-  }
+
+  } while (nomeTam < 2 || nomeTam > 30);
+
+  // TODO: passo 2
+  // TODO: passo 3
+  // TODO: passo 4
+  // TODO: passo 5
 
   return 0;
 }
