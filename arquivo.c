@@ -201,7 +201,7 @@ int main() {
       int pergLn, pergInd;
       int gen, respGen[4] = {0, 0, 0, 0}; // gêneros com os quais as respostas
                                           // estão associadas
-      char pergResp; // resposta dada pelo usuário
+      char pergResp;                      // resposta dada pelo usuário
 
       setbuf(stdin, NULL);
       for (pergInd = 0; pergInd < perglim; pergInd++) {
@@ -228,25 +228,29 @@ int main() {
         // 0 e 3
         int respInteiro = (int)pergResp - (int)'a';
 
-        // Aqui pegamos o gênero com o qual a resposta dada pelo usuário para a pergunta
-        // na linha respInteiro está associada. Porque as perguntas iniciam a contagem
-        // do gênero a partir do valor 1, precisamos subtrair 1 para que este valor possa
-        // ser usado para acessar elementos de um vetor.
+        // Aqui pegamos o gênero com o qual a resposta dada pelo usuário para a
+        // pergunta na linha respInteiro está associada. Porque as perguntas
+        // iniciam a contagem do gênero a partir do valor 1, precisamos subtrair
+        // 1 para que este valor possa ser usado para acessar elementos de um
+        // vetor.
         gen = matvalores[pergLn][respInteiro] - 1;
 
-        // Temos 4 gêneros. Cada resposta provê um gênero entre esses 4. Cada gênero
-        // possui uma varíavel no vetor respGen. O usuário responde a pergunta, nós 
-        // encontramos com que gênero a resposta está associada e adicionamos 1 à variável
-        // em respGen contendo este gênero. No final do questionário, respGen
-        // vai conter a distribuição do(s) gênero(s) com o(s) qual(is) o usuário 
-        // melhor se encaixa. Temos
-        // respGen[0] refere ao gênero filosofia
-        // respGen[1] refere ao gênero ciência
-        // respGen[2] refere ao gênero literatura trágica
-        // respGen[3] refere ao gênero fantasia
+        // Temos 4 gêneros. Cada resposta provê um gênero entre esses 4. Cada
+        // gênero possui uma varíavel no vetor respGen. O usuário responde a
+        // pergunta, nós encontramos com que gênero a resposta está associada e
+        // adicionamos 1 à variável em respGen contendo este gênero. No final do
+        // questionário, respGen vai conter a distribuição do(s) gênero(s) com
+        // o(s) qual(is) o usuário melhor se encaixa. Temos respGen[0] refere ao
+        // gênero filosofia respGen[1] refere ao gênero ciência respGen[2]
+        // refere ao gênero literatura trágica respGen[3] refere ao gênero
+        // fantasia
         respGen[gen] += 1;
       }
+
+      for (gen = 0; gen < 4; ++gen) {
+      }
     }
+
     /* 3) Caso o usuário queira jogar o modo rápido ele terá de responder 3
     perguntas, cada uma com 4 respostas. Caso ele digite um valor diferente de
     1,2,3 e 4 aparecerá uma mensagem na tela*/
