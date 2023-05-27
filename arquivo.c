@@ -126,7 +126,7 @@ void generate(int vet[], int tam) {
 
 int main() {
 
-  int tam = 17;
+  int tam = 16;
   setlocale(LC_ALL, "Portuguese");
 
   // Matrizes e vetores para armazenar os dados
