@@ -2,11 +2,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
-/* Exemplo de linha para o arquivo texto
-Nobreza é ...?;Viver pelo próximo.;Sobreviver a qualquer custo.;Lutar bravamente
-pelo que você acredita.;Trazer ordem.;2;4;1;3;
-*/
+#define RED ""
+#define GRN "\x1B[32m"
+#define YEL "\x1B[33m"
+#define BLU "\x1B[34m"
+#define MAG "\x1B[35m"
+#define CYN "\x1B[36m"
+#define WHT "\x1B[37m"
+#define RESET "\x1B[0m"
 
 void inicializarDados(int vet[][4], int tam) {
   int i;
@@ -81,31 +86,53 @@ void imprimirTudo(char matpergs[][100], char matresp1[][100],
   }
 }
 
+int randomInteger(int low, int high) {
+  int k;
+  double d;
+  srand(time(NULL));
+  d = (double)rand() / ((double)RAND_MAX + 1);
+  k = d * (high - low + 1);
+
+  return low + k;
+}
+
+int repeated(int vet[], int num, int tam) {
+  int i;
+  for (i = 0; i < tam; i++) {
+    if (vet[i] == num)
+      return 1;
+  }
+  return 0;
+}
+
+void printvet(int vet[], int tam) {
+  int i;
+  printf("Valores gerados %d: ", tam);
+  for (i = 0; i < tam; i++) {
+    printf("[ %d ]", vet[i]);
+  }
+}
+
+void generate(int vet[], int tam) {
+  int i = 0, tmp;
+  do {
+    tmp = randomInteger(0, 19);
+    if (!repeated(vet, tmp, tam)) {
+      vet[i] = tmp;
+      i++;
+    }
+  } while (i < tam);
+}
+
 int main() {
-  int tam = 20;
+
+  int tam = 17;
   setlocale(LC_ALL, "Portuguese");
 
   // Matrizes e vetores para armazenar os dados
   char matpergs[tam][100], matresp1[tam][100], matresp2[tam][100],
       matresp3[tam][100], matresp4[tam][100];
   int matvalores[tam][4];
-
-
-  printf("---------------------------------------------------------------------"
-         "-------\n");
-  printf("----------------------------Recomendação de "
-         "Autores-------------------------\n");
-  printf("---------------------------------------------------------------------"
-         "-------\n\n");
-
-  // Qual
-  // Este quiz vai de autores regionais até autores internacionais
-  // TODO: Criar a menssagem apresentando o programa
-  printf("AUTORES, enfim, ?");
-
-  printf("Questões vão te ser apresentadas. As respostas vão de 1 a 4.\n");
-  printf("No total, serão 21 pergutas. 20 decidirão qual será o gênero e uma o "
-         "autor\n");
 
   inicializarDados(matvalores, tam);
 
@@ -114,44 +141,142 @@ int main() {
   carregarDadosArquivo(matpergs, matresp1, matresp2, matresp3, matresp4,
                        matvalores, tam);
 
-  /*Esta função pode ser usada por vocês somente para conferir se a leitura dos
-   * dados deu certo.*/
-  //imprimirTudo(matpergs, matresp1, matresp2, matresp3, matresp4, matvalores,
-  //             tam);
+  int n;
+  char nome[30];
 
+  printf(GRN "----------------------------------------------------------");
+  printf("\n------------ Quiz: Recomendação de Escritores ------------");
+  printf("\nSeja bem-vind@! Esse Quiz tem o objetivo de recomendar escritores "
+         "com base em seus interesses.");
 
-  // Armazena o nome. O nome precisa de 32 caracteres na declaração para seu tam
-  // anho poder ser checado e 
-  char nome[32];
-  int nomeTam = 0;
+  printf("\nPara começarmos, digite o seu nome: " RESET);
+  scanf("%[^\n]", nome);
 
-  //  Lê um nick provido pelo usuário até que o nick provido esteja dentro 
-  // dos limites
   do {
-     // Imprime código para perguntar e armazenar o nome da pessoa.
-    printf("\nInsira o nick para ser usado durante a execução do programa: ");
-    scanf(" %31[^\n]s", nome);
+    do {
+      if (strlen(nome) < 2)
+        printf(RED "\nSeu nome precisa conter mais do que DOIS caracteres. "
+                   "Digite novamente seu nome: " RESET);
+      scanf("%[^\n]", nome);
+      setbuf(stdin, NULL);
+      if (strlen(nome) > 30)
+        printf(RED "\nSeu nome precisa conter MENOS que TRINTA caracteres. "
+                   "Digite novamente seu nome: " RESET);
+      scanf("%[^\n]", nome);
+    } while (strlen(nome) < 2 || strlen(nome) > 30);
 
-    //  Itera a string provida pelo usuário, retornando o tamanho, em
-    //  caracteres, do nome
-    while (nome[nomeTam] != '\0') {
-      nomeTam++;
+    /* 1) Pede o nome do usuário e verifica se o nome contém menos que 2
+     * caracteres ou mais do que 30 caracteres. */
+
+    printf(GRN "\n\n%s, qual modo você quer jogar?\n1. Modo Rápido (3 "
+               "perguntas) \n2. Modo Completo (10 perguntas)\n" RESET,
+           nome);
+    scanf("%i", &n);
+
+    while (n != 1 && n != 2) {
+      printf(GRN
+             "%s, digite APENAS 1 ou 2 para selecionar o modo desejado: " RESET,
+             nome);
+      scanf("%i", &n);
     }
 
-    // checa se o nome provido pelo usuário está dentro dos limites
-    // estabelecidos, pedindo o nome novamente caso não o esteja
-    if (nomeTam < 2 || nomeTam > 30) {
-      printf("Seu nick precisa ter entre 2 e 30 caracteres. Não mais, nem "
-             "menos.");
-      printf("Tente novamente.\n");
+    /* 2) Pergunta qual modo o usuário deseja jogar (1 para rápido e 2 para
+    completo). Caso o usuário digite um valor diferente de 1 e 2 vai aparecer
+    uma mensagem na tela pedindo que ele informe apenas 1 ou 2. */
+
+    if (n == 1) {
+
+      int perglim = 3; // limite máximo de perguntas para esse modo
+
+      // Cria e preenche um vetor de números randômicos para seres usados
+      // quando selecionando a pergunta e suas possíveis respostas.
+      int pergiV[perglim];
+      generate(pergiV, perglim);
+
+      // PergInd é usado para armazer os índices que vão ser usados para acessar
+      // os elementos do vetor pergiV, que armazena os índices randômicos
+      // das linhas onde as perguntas e suas respostas se encontram nas matrizes
+      // que as contém. pergLn armazena a linha da matriz em que a pergunta está
+      // contida
+      int pergLn, pergInd;
+      int gen, respGen[4] = {0, 0, 0, 0}; // gêneros com os quais as respostas
+                                          // estão associadas
+      char pergResp; // resposta dada pelo usuário
+
+      setbuf(stdin, NULL);
+      for (pergInd = 0; pergInd < perglim; pergInd++) {
+        pergLn = pergiV[pergInd];
+
+        printf("\n\npergLn is %d\n\n", pergLn);
+        // imprime a pergunta e suas possíveis respostas
+        printf(GRN "%s \n a) %s \n b) %s \n c) %s \n d) %s\n" RESET,
+               matpergs[pergLn], matresp1[pergLn], matresp2[pergLn],
+               matresp3[pergLn], matresp4[pergLn]);
+
+        printf("\nInsira a sua resposta(entre a e d): ");
+        scanf(" %c", &pergResp);
+
+        while (pergResp != 'a' && pergResp != 'b' && pergResp != 'c' &&
+               pergResp != 'd') {
+
+          printf(RED "\nSua resposta precisa ser a, b, c ou d. Por favor, "
+                     "tente novamente: " RESET);
+          scanf(" %c", &pergResp);
+        }
+
+        // converte o caractere inserido pelo usuário em um número inteiro entre
+        // 0 e 3
+        int respInteiro = (int)pergResp - (int)'a';
+
+        // Aqui pegamos o gênero com o qual a resposta dada pelo usuário para a pergunta
+        // na linha respInteiro está associada. Porque as perguntas iniciam a contagem
+        // do gênero a partir do valor 1, precisamos subtrair 1 para que este valor possa
+        // ser usado para acessar elementos de um vetor.
+        gen = matvalores[pergLn][respInteiro] - 1;
+
+        // Temos 4 gêneros. Cada resposta provê um gênero entre esses 4. Cada gênero
+        // possui uma varíavel no vetor respGen. O usuário responde a pergunta, nós 
+        // encontramos com que gênero a resposta está associada e adicionamos 1 à variável
+        // em respGen contendo este gênero. No final do questionário, respGen
+        // vai conter a distribuição do(s) gênero(s) com o(s) qual(is) o usuário 
+        // melhor se encaixa. Temos
+        // respGen[0] refere ao gênero filosofia
+        // respGen[1] refere ao gênero ciência
+        // respGen[2] refere ao gênero literatura trágica
+        // respGen[3] refere ao gênero fantasia
+        respGen[gen] += 1;
+      }
     }
+    /* 3) Caso o usuário queira jogar o modo rápido ele terá de responder 3
+    perguntas, cada uma com 4 respostas. Caso ele digite um valor diferente de
+    1,2,3 e 4 aparecerá uma mensagem na tela*/
 
-  } while (nomeTam < 2 || nomeTam > 30);
+    if (n == 2) {
+      printf("caso2222");
+    }
+    /* 4) Perguntas modo completo */
 
-  // TODO: passo 2
-  // TODO: passo 3
-  // TODO: passo 4
-  // TODO: passo 5
+    printf(GRN "\n%s, você gostaria de refazer o Quiz? \n1.Sim\n2.Não" RESET,
+           nome);
+    scanf("%i", &n);
+    do {
+      if (n != 1 && n != 2)
+        printf(RED "Digito inválido! Digite apenas 1 ou 2.\nVocê gostaria de "
+                   "refazer o Quiz? \n1.Sim\nNão" RESET);
+      scanf("%i", &n);
+    } while (n != 1 && n != 2);
+  } while (n == 1);
 
+  // matpergs: Armazena as perguntas feitas.
+  // matresp{1..4}: Armazena as respostas para a pergunta na linha n dessa
+  // matriz
+  //
+  // Cada pergunta possui um index? O index da pergunta vai ser
+  //
+  // Vamos ter que armazer o index das perguntas selecionadas.
+
+  /* 5) É perguntado ao usuário se deseja responder o Quiz novamente (1 para Sim
+  e 2 para Não). Caso o valor digitado seja diferente de 1 e 2 aparecerá uma
+  mensagem na tela. */
   return 0;
 }
