@@ -240,14 +240,33 @@ int main() {
         // pergunta, nós encontramos com que gênero a resposta está associada e
         // adicionamos 1 à variável em respGen contendo este gênero. No final do
         // questionário, respGen vai conter a distribuição do(s) gênero(s) com
-        // o(s) qual(is) o usuário melhor se encaixa. Temos respGen[0] refere ao
-        // gênero filosofia respGen[1] refere ao gênero ciência respGen[2]
-        // refere ao gênero literatura trágica respGen[3] refere ao gênero
-        // fantasia
+        // o(s) qual(is) o usuário melhor se encaixa. Temos que
+        // respGen[0] refere ao gênero filosofia,
+        // respGen[1] refere ao gênero ciência,
+        // respGen[2] refere ao gênero literatura trágica e
+        // respGen[3] refere ao gênero fantasia
         respGen[gen] += 1;
       }
 
+      //  Itera o vetor contendo a distribuição dos gêneros e imprime as
+      // mensagens identificando com quais gêneros o usuário melhor se 
+      // encaixa
       for (gen = 0; gen < 4; ++gen) {
+           // Todas as respostas estão associadas com o mesmo gênero
+          char genero[100];
+          if (respGen[gen] == perglim) {
+               if (gen == 0) {
+                    strcpy(genero, "filosofia");
+               } else if (gen == 1) {
+                    strcpy(genero, "ciência");
+               } else if (gen == 2) {
+                    strcpy(genero, "literatura trágica");
+               } else if (gen == 3) {
+                    strcpy(genero, "fantasia");
+               }
+
+               printf("Parece que você é completamente aficcionado por %s", genero);
+          }
       }
     }
 
