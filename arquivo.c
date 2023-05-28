@@ -155,16 +155,17 @@ int main() {
   do {
     setbuf(stdin, NULL);
     while (strlen(nome) < 2 || strlen(nome) > 30) {
-      if (strlen(nome) < 2)
+      if (strlen(nome) < 2) {
         printf(RED "\nSeu nome precisa conter mais do que DOIS caracteres. "
                    "Digite novamente seu nome: " RESET);
-      scanf("%[^\n]", nome);
-      continue;
+        scanf("%[^\n]", nome);
+      }
 
-      if (strlen(nome) > 30)
+      if (strlen(nome) > 30) {
         printf(RED "\nSeu nome precisa conter MENOS que TRINTA caracteres. "
                    "Digite novamente seu nome: " RESET);
-      scanf("%[^\n]", nome);
+        scanf("%[^\n]", nome);
+      }
     }
 
     /* 1) Pede o nome do usuário e verifica se o nome contém menos que 2
@@ -342,14 +343,15 @@ int main() {
         }
       }
     } else {
-      printf(BLU "\n\n\nSeu gosto parece ser interdisciplinar, mas o gênero com "
-                 "o qual mais se identifica é %s\n" RESET,
+      printf(BLU
+             "\n\n\nSeu gosto parece ser interdisciplinar, mas o gênero com "
+             "o qual mais se identifica é %s\n" RESET,
              genero[gostaMais]);
 
-      printf(RED "    *" MAG " Alguns autores de %s para se deleitar com: %s\n" RESET,
+      printf(RED "    *" MAG
+                 " Alguns autores de %s para se deleitar com: %s\n" RESET,
              genero[gostaMais], autores[gostaMais]);
     }
-
 
     printf(GRN "\n%s, você gostaria de refazer o Quiz? \n1.Sim\n2.Não\n" RESET,
            nome);
@@ -361,7 +363,8 @@ int main() {
     } while (n != 1 && n != 2);
 
     if (n == 2) {
-      printf(GRN "%s, foi muito bom jogar com você! Até outra hora! :3\n", nome);
+      printf(GRN "%s, foi muito bom jogar com você! Até outra hora! :3\n",
+             nome);
     }
   } while (n == 1);
 
