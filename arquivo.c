@@ -268,11 +268,11 @@ int main() {
     // usuário melhor se encaixa
     int gostaMais = 0;
 
-    // array contendo quantas vezes acontece empate para os gêneros
-    // em cada índice do vetor. Cada índice representa um gênero,
-    // empate no número de respostas de gêneros distintos vai aumentar
-    // o valor da variável para todos os gêneros(assim fica mais fácil,
-    // usando gostaMais, de descobrir o que cada gênero faz.
+    // array contendo quantas vezes acontece empate para os respectivos
+    // gêneros representados pela posição no vetor. Cada índice representa um gênero.
+    // Caso o número de repostas dadas para um gênero seja igual ao número de respostas
+    // dadas para outros gêneros, as variáveis em empate respectivas ao gênero serão
+    // aumentadas em 1 para cada empate, para todos os gêneros que empatam
     int empate[4] = {0, 0, 0, 0};
 
     int respI;
@@ -288,8 +288,8 @@ int main() {
       }
 
       if (respGen[gen] > 0) {
-        // Descobre quantos outros gêneros contiveram o mesmo número de respostas
-        // que o gênero no vetor respGen identificado pelo índice gen
+        // Descobre quantos outros gêneros contiveram o mesmo número de
+        // respostas que o gênero no vetor respGen identificado pelo índice gen
         repeat = 0;
         for (respI = 0; respI < 4; respI++) {
           if (respGen[respI] == respGen[gen] && respI != gen) {
@@ -359,12 +359,13 @@ int main() {
 
     printf(GRN "\n%s, você gostaria de refazer o Quiz? \n1.Sim\n2.Não\n" RESET,
            nome);
-    do {
-      if (n != 1 && n != 2)
-        printf(RED "Digito inválido! Digite apenas 1 ou 2.\nVocê gostaria de "
-                   "refazer o Quiz? \n1.Sim\nNão\n" RESET);
+
+    scanf("%f", &n);
+    while (n != 1 && n != 2) {
+      printf(RED "Digito inválido! Digite apenas 1 ou 2.\nVocê gostaria de "
+                 "refazer o Quiz? \n1.Sim\nNão\n" RESET);
       scanf("%f", &n);
-    } while (n != 1 && n != 2);
+    }
 
     if (n == 2) {
       printf(GRN "%s, foi muito bom jogar com você! Até outra hora! :3\n",
