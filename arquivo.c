@@ -126,7 +126,7 @@ void generate(int vet[], int tam) {
 
 int main() {
 
-  int tam = 16;
+  int tam = 17;
   setlocale(LC_ALL, "Portuguese");
 
   // Matrizes e vetores para armazenar os dados
@@ -153,7 +153,8 @@ int main() {
   scanf("%[^\n]", nome);
 
   do {
-    do {
+    setbuf(stdin, NULL);
+    while (strlen(nome) < 2 || strlen(nome) > 30) {
       if (strlen(nome) < 2)
         printf(RED "\nSeu nome precisa conter mais do que DOIS caracteres. "
                    "Digite novamente seu nome: " RESET);
@@ -163,7 +164,7 @@ int main() {
         printf(RED "\nSeu nome precisa conter MENOS que TRINTA caracteres. "
                    "Digite novamente seu nome: " RESET);
       scanf("%[^\n]", nome);
-    } while (strlen(nome) < 2 || strlen(nome) > 30);
+    }
 
     /* 1) Pede o nome do usuário e verifica se o nome contém menos que 2
      * caracteres ou mais do que 30 caracteres. */
@@ -184,100 +185,174 @@ int main() {
     completo). Caso o usuário digite um valor diferente de 1 e 2 vai aparecer
     uma mensagem na tela pedindo que ele informe apenas 1 ou 2. */
 
-    if (n == 1) {
-
-      int perglim = 3; // limite máximo de perguntas para esse modo
-
-      // Cria e preenche um vetor de números randômicos para seres usados
-      // quando selecionando a pergunta e suas possíveis respostas.
-      int pergiV[perglim];
-      generate(pergiV, perglim);
-
-      // PergInd é usado para armazer os índices que vão ser usados para acessar
-      // os elementos do vetor pergiV, que armazena os índices randômicos
-      // das linhas onde as perguntas e suas respostas se encontram nas matrizes
-      // que as contém. pergLn armazena a linha da matriz em que a pergunta está
-      // contida
-      int pergLn, pergInd;
-      int gen, respGen[4] = {0, 0, 0, 0}; // gêneros com os quais as respostas
-                                          // estão associadas
-      char pergResp;                      // resposta dada pelo usuário
-
-      setbuf(stdin, NULL);
-      for (pergInd = 0; pergInd < perglim; pergInd++) {
-        pergLn = pergiV[pergInd];
-
-        printf("\n\npergLn is %d\n\n", pergLn);
-        // imprime a pergunta e suas possíveis respostas
-        printf(GRN "%s \n a) %s \n b) %s \n c) %s \n d) %s\n" RESET,
-               matpergs[pergLn], matresp1[pergLn], matresp2[pergLn],
-               matresp3[pergLn], matresp4[pergLn]);
-
-        printf("\nInsira a sua resposta(entre a e d): ");
-        scanf(" %c", &pergResp);
-
-        while (pergResp != 'a' && pergResp != 'b' && pergResp != 'c' &&
-               pergResp != 'd') {
-
-          printf(RED "\nSua resposta precisa ser a, b, c ou d. Por favor, "
-                     "tente novamente: " RESET);
-          scanf(" %c", &pergResp);
-        }
-
-        // converte o caractere inserido pelo usuário em um número inteiro entre
-        // 0 e 3
-        int respInteiro = (int)pergResp - (int)'a';
-
-        // Aqui pegamos o gênero com o qual a resposta dada pelo usuário para a
-        // pergunta na linha respInteiro está associada. Porque as perguntas
-        // iniciam a contagem do gênero a partir do valor 1, precisamos subtrair
-        // 1 para que este valor possa ser usado para acessar elementos de um
-        // vetor.
-        gen = matvalores[pergLn][respInteiro] - 1;
-
-        // Temos 4 gêneros. Cada resposta provê um gênero entre esses 4. Cada
-        // gênero possui uma varíavel no vetor respGen. O usuário responde a
-        // pergunta, nós encontramos com que gênero a resposta está associada e
-        // adicionamos 1 à variável em respGen contendo este gênero. No final do
-        // questionário, respGen vai conter a distribuição do(s) gênero(s) com
-        // o(s) qual(is) o usuário melhor se encaixa. Temos que
-        // respGen[0] refere ao gênero filosofia,
-        // respGen[1] refere ao gênero ciência,
-        // respGen[2] refere ao gênero literatura trágica e
-        // respGen[3] refere ao gênero fantasia
-        respGen[gen] += 1;
-      }
-
-      //  Itera o vetor contendo a distribuição dos gêneros e imprime as
-      // mensagens identificando com quais gêneros o usuário melhor se 
-      // encaixa
-      for (gen = 0; gen < 4; ++gen) {
-           // Todas as respostas estão associadas com o mesmo gênero
-          char genero[100];
-          if (respGen[gen] == perglim) {
-               if (gen == 0) {
-                    strcpy(genero, "filosofia");
-               } else if (gen == 1) {
-                    strcpy(genero, "ciência");
-               } else if (gen == 2) {
-                    strcpy(genero, "literatura trágica");
-               } else if (gen == 3) {
-                    strcpy(genero, "fantasia");
-               }
-
-               printf("Parece que você é completamente aficcionado por %s", genero);
-          }
-      }
-    }
+    int perglim = 3; // limite máximo de perguntas para esse modo
 
     /* 3) Caso o usuário queira jogar o modo rápido ele terá de responder 3
     perguntas, cada uma com 4 respostas. Caso ele digite um valor diferente de
     1,2,3 e 4 aparecerá uma mensagem na tela*/
 
+    // O valor padrão definindo o limite de perguntas só precisa ser mudado se
+    // o usuário escolher o modo de 10 perguntas
     if (n == 2) {
-      printf("caso2222");
+      perglim = 10;
     }
     /* 4) Perguntas modo completo */
+
+    // Cria e preenche um vetor de números randômicos para seres usados
+    // quando selecionando a pergunta e suas possíveis respostas.
+    int pergiV[perglim];
+    generate(pergiV, perglim);
+
+    // PergInd é usado para armazer os índices que vão ser usados para acessar
+    // os elementos do vetor pergiV, que armazena os índices randômicos
+    // das linhas onde as perguntas e suas respostas se encontram nas matrizes
+    // que as contém. pergLn armazena a linha da matriz em que a pergunta está
+    // contida
+    int pergLn, pergInd;
+    int gen, respGen[4] = {0, 0, 0, 0}; // gêneros com os quais as respostas
+                                        // estão associadas
+    char pergResp[3];                   // resposta dada pelo usuário
+
+    for (pergInd = 0; pergInd < perglim; pergInd++) {
+      pergLn = pergiV[pergInd] % tam;
+
+      printf("\n\npergLn is %d\n\n", pergLn);
+      // imprime a pergunta e suas possíveis respostas
+      printf(GRN "%s \n a) %s \n b) %s \n c) %s \n d) %s\n" RESET,
+             matpergs[pergLn], matresp1[pergLn], matresp2[pergLn],
+             matresp3[pergLn], matresp4[pergLn]);
+
+      printf("\nInsira a sua resposta(entre a e d): ");
+      scanf("%2s", pergResp);
+
+      while (pergResp[0] != 'a' && pergResp[0] != 'b' && pergResp[0] != 'c' &&
+                 pergResp[0] != 'd' ||
+             strlen(pergResp) != 1) {
+
+        // limpa o buffer the caracteres inseridos pelo usuário que não foram
+        // consumidos posteriormente
+        char c;
+        while ((c = fgetc(stdin) != '\n') && c != '\0') {
+        }
+
+        printf(RED "\nSua resposta precisa ser a, b, c ou d. Por favor, "
+                   "tente novamente: " RESET);
+        scanf("%2s", pergResp);
+      }
+
+      // converte o caractere inserido pelo usuário em um número inteiro entre
+      // 0 e 3
+      int respInteiro = (int)pergResp[0] - (int)'a';
+
+      // Aqui pegamos o gênero com o qual a resposta dada pelo usuário para a
+      // pergunta na linha respInteiro está associada. Porque as perguntas
+      // iniciam a contagem do gênero a partir do valor 1, precisamos subtrair
+      // 1 para que este valor possa ser usado para acessar elementos de um
+      // vetor.
+      gen = matvalores[pergLn][respInteiro] - 1;
+
+      // Temos 4 gêneros. Cada resposta provê um gênero entre esses 4. Cada
+      // gênero possui uma varíavel no vetor respGen. O usuário responde a
+      // pergunta, nós encontramos com que gênero a resposta está associada e
+      // adicionamos 1 à variável em respGen contendo este gênero. No final do
+      // questionário, respGen vai conter a distribuição do(s) gênero(s) com
+      // o(s) qual(is) o usuário melhor se encaixa. Temos que
+      // respGen[0] refere ao gênero filosofia,
+      // respGen[1] refere ao gênero ciência,
+      // respGen[2] refere ao gênero literatura trágica e
+      // respGen[3] refere ao gênero fantasia
+      respGen[gen] += 1;
+    }
+
+    //  Itera o vetor contendo a distribuição dos gêneros e imprime as
+    // mensagens identificando com quais gêneros o usuário melhor se
+    // encaixa
+    int gostaMais = 0;
+
+    // array contendo quantas vezes acontece empate para os gêneros
+    // em cada índice do vetor. Cada índice representa um gênero,
+    // empate no número de respostas de gêneros distintos vai aumentar
+    // o valor da variável para todos os gêneros(assim fica mais fácil,
+    // usando gostaMais, de descobrir o que cada gênero faz.
+    int empate[4] = {0, 0, 0, 0};
+
+    for (gen = 0; gen < 4; ++gen) {
+      // no final do loop, gostaMais vai ser o índice em respGen do
+      // Gênero com o maior número de respostas em seu favor
+      if (respGen[gostaMais] < respGen[gen]) {
+        gostaMais = gen;
+      }
+
+      if (respGen[gen] > 0) {
+        // Descobre quantas outras questões empataram em número de respostas
+        // com a questão sendo atualmente iterada
+        int respI;
+        int repeat = 0;
+        for (respI = 0; respI < 4; respI++) {
+          if (respGen[respI] == respGen[gen] && respI != gen) {
+            repeat++;
+          }
+        }
+
+        empate[gen] = repeat;
+      }
+    }
+
+    // printvet(empate, 4);
+
+    // Cada número se refere a um gênero. A variável gostaMais será usada para
+    // decidir qual o gênero selecionado
+    char genero[4][50];
+    char autores[4][100];
+    strcpy(genero[0], "filosofia");
+    strcpy(autores[0], "Marx, Nietzsche, Aristóteles e Simone de Beauvoir ");
+
+    strcpy(genero[1], "ciência");
+    strcpy(autores[1], "Newton, Stephen Hawking, Darwin e Galileu");
+
+    strcpy(genero[2], "literatura trágica");
+    strcpy(autores[2], "Shakespeare, Goethe, Lorde Byron e Machado de Assis");
+
+    strcpy(genero[3], "fantasia");
+    strcpy(autores[3], "J.K Rowling, Guimarães Rosa, Lovecraft e Tolkien;");
+
+    // Decide qual a mensagem final que deve ser impressa ao usuário
+
+    // Se o primeiro caso passar, o usuário respondeu todas as perguntas
+    // de acordo com o mesmo gênero
+    if (respGen[gostaMais] == perglim) {
+      printf(MAG "Você é completamente aficcionado por %s\n" RESET,
+             genero[gostaMais]);
+
+      printf(CYN "  Aqui estão alguns autores que com certeza vão te "
+                 "entusiasmar com o passar de cada palavra: %s" RESET,
+             autores[gostaMais]);
+
+    } else if (empate[gostaMais] > 0) {
+      // Imprime na tela os gêneros empatados que tiveram o mesmo número
+      // de respostas que gostaMais
+      printf(
+          BLU
+          "\n\n\nSeu gosto literário parece ser profundamente intersciplinar, "
+          "e aqui estão algumas recomendações para saciar sua sede "
+          "literária por algum tempo: \n\n" RESET);
+
+      for (gen = 0; gen < 4; gen++) {
+        if (empate[gen] == empate[gostaMais]) {
+          printf(MAG "Autores(as) de %s que merecem seu tempo:  " RESET,
+                 genero[gen]);
+
+          printf(RED "   *" RESET BLU "%s\n\n" RESET, autores[gen]);
+        }
+      }
+    } else {
+      printf(BLU "\n\nSeu gosto parece ser interdisciplinar, mas o gênero com "
+                 "o qual mais se identifica é %s\n" RESET,
+             genero[gostaMais]);
+
+      printf(MAG "Alguns autores de %s para se deleitar com: %s\n" RESET,
+             genero[gostaMais], autores[gostaMais]);
+    }
 
     printf(GRN "\n%s, você gostaria de refazer o Quiz? \n1.Sim\n2.Não" RESET,
            nome);
@@ -289,14 +364,6 @@ int main() {
       scanf("%i", &n);
     } while (n != 1 && n != 2);
   } while (n == 1);
-
-  // matpergs: Armazena as perguntas feitas.
-  // matresp{1..4}: Armazena as respostas para a pergunta na linha n dessa
-  // matriz
-  //
-  // Cada pergunta possui um index? O index da pergunta vai ser
-  //
-  // Vamos ter que armazer o index das perguntas selecionadas.
 
   /* 5) É perguntado ao usuário se deseja responder o Quiz novamente (1 para Sim
   e 2 para Não). Caso o valor digitado seja diferente de 1 e 2 aparecerá uma
