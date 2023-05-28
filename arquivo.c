@@ -155,6 +155,7 @@ int main() {
   do {
     setbuf(stdin, NULL);
     while (strlen(nome) < 2 || strlen(nome) > 30) {
+      setbuf(stdin, NULL);
       if (strlen(nome) < 2) {
         printf(RED "\nSeu nome precisa conter mais do que DOIS caracteres. "
                    "Digite novamente seu nome: " RESET);
@@ -263,9 +264,8 @@ int main() {
       respGen[gen] += 1;
     }
 
-    //  Itera o vetor contendo a distribuição dos gêneros e imprime as
-    // mensagens identificando com quais gêneros o usuário melhor se
-    // encaixa
+    // Valor contendo o índice, em respGen, do(s) gênero(s) com o(s) qual(is) o
+    // usuário melhor se encaixa
     int gostaMais = 0;
 
     // array contendo quantas vezes acontece empate para os gêneros
@@ -275,6 +275,11 @@ int main() {
     // usando gostaMais, de descobrir o que cada gênero faz.
     int empate[4] = {0, 0, 0, 0};
 
+    //  Itera o vetor contendo a distribuição dos gêneros e imprime as
+    // mensagens identificando com quais gêneros o usuário melhor se
+    // encaixa
+    int respI;
+    int repeat = 0;
     for (gen = 0; gen < 4; ++gen) {
       // no final do loop, gostaMais vai ser o índice em respGen do
       // Gênero com o maior número de respostas em seu favor
@@ -283,10 +288,9 @@ int main() {
       }
 
       if (respGen[gen] > 0) {
-        // Descobre quantas outras questões empataram em número de respostas
-        // com a questão sendo atualmente iterada
-        int respI;
-        int repeat = 0;
+        // Descobre quantos outros gêneros contiveram o mesmo número de respostas
+        // que o gênero no vetor respGen identificado pelo índice gen
+        repeat = 0;
         for (respI = 0; respI < 4; respI++) {
           if (respGen[respI] == respGen[gen] && respI != gen) {
             repeat++;
