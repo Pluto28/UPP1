@@ -4,7 +4,7 @@
 #include <string.h>
 #include <time.h>
 
-#define RED ""
+#define RED "\x1B[31m"
 #define GRN "\x1B[32m"
 #define YEL "\x1B[33m"
 #define BLU "\x1B[34m"
@@ -141,7 +141,7 @@ int main() {
   carregarDadosArquivo(matpergs, matresp1, matresp2, matresp3, matresp4,
                        matvalores, tam);
 
-  int n;
+  float n;
   char nome[30];
 
   printf(GRN "----------------------------------------------------------");
@@ -172,20 +172,18 @@ int main() {
     printf(GRN "\n\n%s, qual modo você quer jogar?\n1. Modo Rápido (3 "
                "perguntas) \n2. Modo Completo (10 perguntas)\n" RESET,
            nome);
-    scanf("%i", &n);
+    scanf("%f", &n);
 
     while (n != 1 && n != 2) {
       printf(GRN
              "%s, digite APENAS 1 ou 2 para selecionar o modo desejado: " RESET,
              nome);
-      scanf("%i", &n);
+      scanf("%f", &n);
     }
 
     /* 2) Pergunta qual modo o usuário deseja jogar (1 para rápido e 2 para
     completo). Caso o usuário digite um valor diferente de 1 e 2 vai aparecer
     uma mensagem na tela pedindo que ele informe apenas 1 ou 2. */
-
-    int perglim = 3; // limite máximo de perguntas para esse modo
 
     /* 3) Caso o usuário queira jogar o modo rápido ele terá de responder 3
     perguntas, cada uma com 4 respostas. Caso ele digite um valor diferente de
@@ -193,10 +191,10 @@ int main() {
 
     // O valor padrão definindo o limite de perguntas só precisa ser mudado se
     // o usuário escolher o modo de 10 perguntas
+    int perglim = 3; // limite máximo de perguntas para o modo 1
     if (n == 2) {
       perglim = 10;
     }
-    /* 4) Perguntas modo completo */
 
     // Cria e preenche um vetor de números randômicos para seres usados
     // quando selecionando a pergunta e suas possíveis respostas.
@@ -216,13 +214,12 @@ int main() {
     for (pergInd = 0; pergInd < perglim; pergInd++) {
       pergLn = pergiV[pergInd] % tam;
 
-      printf("\n\npergLn is %d\n\n", pergLn);
       // imprime a pergunta e suas possíveis respostas
-      printf(GRN "%s \n a) %s \n b) %s \n c) %s \n d) %s\n" RESET,
+      printf(GRN "\n\n%s \n a) %s \n b) %s \n c) %s \n d) %s\n" RESET,
              matpergs[pergLn], matresp1[pergLn], matresp2[pergLn],
              matresp3[pergLn], matresp4[pergLn]);
 
-      printf("\nInsira a sua resposta(entre a e d): ");
+      printf(MAG "Insira a sua resposta(entre a e d): " RESET);
       scanf("%2s", pergResp);
 
       while (pergResp[0] != 'a' && pergResp[0] != 'b' && pergResp[0] != 'c' &&
@@ -321,48 +318,50 @@ int main() {
     // Se o primeiro caso passar, o usuário respondeu todas as perguntas
     // de acordo com o mesmo gênero
     if (respGen[gostaMais] == perglim) {
-      printf(MAG "Você é completamente aficcionado por %s\n" RESET,
+      printf(MAG "\n\n\nVocê é completamente aficcionado por %s, " RESET,
              genero[gostaMais]);
 
-      printf(CYN "  Aqui estão alguns autores que com certeza vão te "
-                 "entusiasmar com o passar de cada palavra: %s" RESET,
+      printf(CYN "e aqui estão alguns autores que com certeza vão te \n"
+                 "entusiasmar com o passar de cada palavra: %s.\n\n" RESET,
              autores[gostaMais]);
 
     } else if (empate[gostaMais] > 0) {
       // Imprime na tela os gêneros empatados que tiveram o mesmo número
       // de respostas que gostaMais
-      printf(
-          BLU
-          "\n\n\nSeu gosto literário parece ser profundamente intersciplinar, "
-          "e aqui estão algumas recomendações para saciar sua sede "
-          "literária por algum tempo: \n\n" RESET);
+      printf(BLU "\n\n\nSeu gosto literário parece ser profundamente "
+                 "intersciplinar, \n"
+                 "e aqui estão algumas recomendações para saciar sua sede \n"
+                 "literária por algum tempo: \n\n" RESET);
 
       for (gen = 0; gen < 4; gen++) {
         if (empate[gen] == empate[gostaMais]) {
-          printf(MAG "Autores(as) de %s que merecem seu tempo:  " RESET,
-                 genero[gen]);
+          printf(MAG "%s:\n " RESET, genero[gen]);
 
-          printf(RED "   *" RESET BLU "%s\n\n" RESET, autores[gen]);
+          printf(RED "   *" RESET CYN " %s\n\n" RESET, autores[gen]);
         }
       }
     } else {
-      printf(BLU "\n\nSeu gosto parece ser interdisciplinar, mas o gênero com "
+      printf(BLU "\n\n\nSeu gosto parece ser interdisciplinar, mas o gênero com "
                  "o qual mais se identifica é %s\n" RESET,
              genero[gostaMais]);
 
-      printf(MAG "Alguns autores de %s para se deleitar com: %s\n" RESET,
+      printf(RED "    *" MAG " Alguns autores de %s para se deleitar com: %s\n" RESET,
              genero[gostaMais], autores[gostaMais]);
     }
 
-    printf(GRN "\n%s, você gostaria de refazer o Quiz? \n1.Sim\n2.Não" RESET,
+
+    printf(GRN "\n%s, você gostaria de refazer o Quiz? \n1.Sim\n2.Não\n" RESET,
            nome);
-    scanf("%i", &n);
     do {
       if (n != 1 && n != 2)
         printf(RED "Digito inválido! Digite apenas 1 ou 2.\nVocê gostaria de "
-                   "refazer o Quiz? \n1.Sim\nNão" RESET);
-      scanf("%i", &n);
+                   "refazer o Quiz? \n1.Sim\nNão\n" RESET);
+      scanf("%f", &n);
     } while (n != 1 && n != 2);
+
+    if (n == 2) {
+      printf(GRN "%s, foi muito bom jogar com você! Até outra hora! :3\n", nome);
+    }
   } while (n == 1);
 
   /* 5) É perguntado ao usuário se deseja responder o Quiz novamente (1 para Sim
