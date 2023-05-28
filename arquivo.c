@@ -159,7 +159,8 @@ int main() {
         printf(RED "\nSeu nome precisa conter mais do que DOIS caracteres. "
                    "Digite novamente seu nome: " RESET);
       scanf("%[^\n]", nome);
-      setbuf(stdin, NULL);
+      continue;
+
       if (strlen(nome) > 30)
         printf(RED "\nSeu nome precisa conter MENOS que TRINTA caracteres. "
                    "Digite novamente seu nome: " RESET);
