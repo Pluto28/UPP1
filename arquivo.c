@@ -275,11 +275,11 @@ int main() {
     // usando gostaMais, de descobrir o que cada gênero faz.
     int empate[4] = {0, 0, 0, 0};
 
-    //  Itera o vetor contendo a distribuição dos gêneros e imprime as
-    // mensagens identificando com quais gêneros o usuário melhor se
-    // encaixa
     int respI;
     int repeat = 0;
+    //  Itera o vetor contendo a distribuição dos gêneros e identifica
+    //  qual o gênero com o maior número de respostas, assim como os gêneros
+    //  com um número repetido de respostas
     for (gen = 0; gen < 4; ++gen) {
       // no final do loop, gostaMais vai ser o índice em respGen do
       // Gênero com o maior número de respostas em seu favor
