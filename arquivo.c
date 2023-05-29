@@ -212,7 +212,7 @@ int main() {
     int pergLn, pergInd;
     int gen, respGen[4] = {0, 0, 0, 0}; // gêneros com os quais as respostas
                                         // estão associadas
-    char pergResp[3];                   // resposta dada pelo usuário
+    char pergResp;                   // resposta dada pelo usuário
 
     for (pergInd = 0; pergInd < perglim; pergInd++) {
       pergLn = pergiV[pergInd] % tam;
@@ -223,11 +223,11 @@ int main() {
              matresp3[pergLn], matresp4[pergLn]);
 
       printf(MAG "Insira a sua resposta(entre a e d): " RESET);
-      scanf("%2s", pergResp);
+      scanf("%c", &pergResp);
 
-      while (pergResp[0] != 'a' && pergResp[0] != 'b' && pergResp[0] != 'c' &&
-                 pergResp[0] != 'd' ||
-             strlen(pergResp) != 1) {
+      while (pergResp != 'a' && pergResp != 'b' && pergResp != 'c' &&
+                 pergResp != 'd' ||
+             fgetc(stdin) != '\n') {
 
         // limpa o buffer the caracteres inseridos pelo usuário que não foram
         // consumidos posteriormente
@@ -237,12 +237,12 @@ int main() {
 
         printf(RED "\nSua resposta precisa ser a, b, c ou d. Por favor, "
                    "tente novamente: " RESET);
-        scanf("%2s", pergResp);
+        scanf("%c", &pergResp);
       }
 
       // converte o caractere inserido pelo usuário em um número inteiro entre
       // 0 e 3
-      int respInteiro = (int)pergResp[0] - (int)'a';
+      int respInteiro = (int)pergResp - (int)'a';
 
       // Aqui pegamos o gênero com o qual a resposta dada pelo usuário para a
       // pergunta na linha respInteiro está associada. Porque as perguntas
