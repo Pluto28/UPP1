@@ -252,7 +252,7 @@ int main() {
       gen = matvalores[pergLn][respInteiro] - 1;
 
       // Temos 4 gêneros. Cada resposta provê um gênero entre esses 4. Cada
-      // gênero possui uma varíavel no vetor respGen. O usuário responde a
+      // gênero possui uma varáável no vetor respGen. O usuário responde a
       // pergunta, nós encontramos com que gênero a resposta está associada e
       // adicionamos 1 à variável em respGen contendo este gênero. No final do
       // questionário, respGen vai conter a distribuição do(s) gênero(s) com
@@ -264,15 +264,16 @@ int main() {
       respGen[gen] += 1;
     }
 
-    // Valor contendo o índice, em respGen, do(s) gênero(s) com o(s) qual(is) o
+    // Valor contendo o índice, em respGen, do gênero com o qual o
     // usuário melhor se encaixa
     int gostaMais = 0;
 
     // array contendo quantas vezes acontece empate para os respectivos
-    // gêneros representados pela posição no vetor. Cada índice representa um gênero.
-    // Caso o número de repostas dadas para um gênero seja igual ao número de respostas
-    // dadas para outros gêneros, as variáveis em empate respectivas ao gênero serão
-    // aumentadas em 1 para cada empate, para todos os gêneros que empatam
+    // gêneros representados pela posição no vetor. Cada índice representa um
+    // gênero. Caso o número de repostas dadas para um gênero seja igual ao
+    // número de respostas dadas para outros gêneros, as variáveis em empate
+    // respectivas ao gênero serão aumentadas em 1 para cada empate, para todos
+    // os gêneros que empatam
     int empate[4] = {0, 0, 0, 0};
 
     int respI;
@@ -308,7 +309,7 @@ int main() {
     char genero[4][50];
     char autores[4][100];
     strcpy(genero[0], "filosofia");
-    strcpy(autores[0], "Marx, Nietzsche, Aristóteles e Simone de Beauvoir ");
+    strcpy(autores[0], "Marx, Nietzsche, Aristóteles e Simone de Beauvoir");
 
     strcpy(genero[1], "ciência");
     strcpy(autores[1], "Newton, Stephen Hawking, Darwin e Galileu");
@@ -317,7 +318,7 @@ int main() {
     strcpy(autores[2], "Shakespeare, Goethe, Lorde Byron e Machado de Assis");
 
     strcpy(genero[3], "fantasia");
-    strcpy(autores[3], "J.K Rowling, Guimarães Rosa, Lovecraft e Tolkien;");
+    strcpy(autores[3], "J.K Rowling, Guimarães Rosa, Lovecraft e Tolkien");
 
     // Decide qual a mensagem final que deve ser impressa ao usuário
 
