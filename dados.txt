@@ -14,4 +14,4 @@ O que te atrai mais numa pessoa?;A capacidade de ter idéias incríveis.;O racio
 Para quem você doaria um rim?;Platão.;Nicolau Copérnico.;Alessandra Negrini.;Daenerys Targaryen.;1;2;3;4;
 Quem entraria para a sua equipe de trabalho?;José Ortega y Gasset.;Ada Lovelace.;Didi.;Tyrion Lannister.;1;2;3;4;
 Qual assunto, dos selecionados a seguir, você mais gosta?;Metafísca.;Decaimento Radioativo.;Tragédias Gregas.;Dragões.;1;2;3;4;
-Quando você recebe uma notícia triste e inesperada, você:; Lidaria de uma maneira que não te afetasse;Pensa que, segundo a ciência, pode haver um multiverso onde aquilo nunca aconteceu;Compararia a minha situação com a de um deus(a) grago(a);Usaria o Delorean para evitar o episódio;1;2;3;4;
+Quando você recebe uma notícia triste e inesperada, você:;Lidaria de uma maneira que não te afetasse;Pensa que, segundo a ciência, pode haver um multiverso onde aquilo nunca aconteceu;Compararia a minha situação com a de um deus(a) grago(a);Usaria o Delorean para evitar o episódio;1;2;3;4;

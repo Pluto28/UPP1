@@ -209,25 +209,26 @@ int main() {
     // das linhas onde as perguntas e suas respostas se encontram nas matrizes
     // que as contém. pergLn armazena a linha da matriz em que a pergunta está
     // contida
-    int pergLn, pergInd;
+    int pergLn, pergInd, respInteiro;
     int gen, respGen[4] = {0, 0, 0, 0}; // gêneros com os quais as respostas
                                         // estão associadas
-    char pergResp;                   // resposta dada pelo usuário
+    char pergResp[3];                   // resposta dada pelo usuário
 
     for (pergInd = 0; pergInd < perglim; pergInd++) {
       pergLn = pergiV[pergInd] % tam;
 
       // imprime a pergunta e suas possíveis respostas
-      printf(GRN "\n\n%s \n a) %s \n b) %s \n c) %s \n d) %s\n" RESET,
-             matpergs[pergLn], matresp1[pergLn], matresp2[pergLn],
+      printf(RED "\n\n%d) " RESET GRN
+                 "%s \n a) %s \n b) %s \n c) %s \n d) %s\n" RESET,
+             pergInd + 1, matpergs[pergLn], matresp1[pergLn], matresp2[pergLn],
              matresp3[pergLn], matresp4[pergLn]);
 
       printf(MAG "Insira a sua resposta(entre a e d): " RESET);
-      scanf("%c", &pergResp);
+      scanf("%2s", pergResp);
 
-      while (pergResp != 'a' && pergResp != 'b' && pergResp != 'c' &&
-                 pergResp != 'd' ||
-             fgetc(stdin) != '\n') {
+      while (pergResp[0] != 'a' && pergResp[0] != 'b' && pergResp[0] != 'c' &&
+                 pergResp[0] != 'd' ||
+             strlen(pergResp) != 1) {
 
         // limpa o buffer the caracteres inseridos pelo usuário que não foram
         // consumidos posteriormente
@@ -237,12 +238,12 @@ int main() {
 
         printf(RED "\nSua resposta precisa ser a, b, c ou d. Por favor, "
                    "tente novamente: " RESET);
-        scanf("%c", &pergResp);
+        scanf("%2s", pergResp);
       }
 
       // converte o caractere inserido pelo usuário em um número inteiro entre
       // 0 e 3
-      int respInteiro = (int)pergResp - (int)'a';
+      respInteiro = (int)pergResp[0] - (int)'a';
 
       // Aqui pegamos o gênero com o qual a resposta dada pelo usuário para a
       // pergunta na linha respInteiro está associada. Porque as perguntas
