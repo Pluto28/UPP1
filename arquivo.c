@@ -126,7 +126,7 @@ void generate(int vet[], int tam) {
 
 int main() {
 
-  int tam = 17;
+  int tam = 20;
   setlocale(LC_ALL, "Portuguese");
 
   // Matrizes e vetores para armazenar os dados
@@ -342,7 +342,7 @@ int main() {
                  "literária por algum tempo: \n\n" RESET);
 
       for (gen = 0; gen < 4; gen++) {
-        if (empate[gen] == empate[gostaMais]) {
+        if (respGen[gen] == respGen[gostaMais]) {
           printf(MAG "%s:\n " RESET, genero[gen]);
 
           printf(RED "   *" RESET CYN " %s\n\n" RESET, autores[gen]);
